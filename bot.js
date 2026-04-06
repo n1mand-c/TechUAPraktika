@@ -1,8 +1,8 @@
 const TelegramBot = require('node-telegram-bot-api');
 const db = require('./db');
 
-const token = process.env.TELEGRAM_BOT_TOKEN || "8313920110:AAFeBVfrzcPJemNeNeyRO_RPRS7Iu8gb4kc";
-const adminIds = (process.env.TELEGRAM_ADMIN_IDS || '5373477297')
+const token = process.env.TELEGRAM_BOT_TOKEN || "";
+const adminIds = (process.env.TELEGRAM_ADMIN_IDS || '')
   .split(',')
   .map(id => id.trim())
   .filter(Boolean);
