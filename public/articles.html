@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Статті та огляди — TechUA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">TECH<span>UA</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Головна</a></li>
+    <li><a href="/catalog">Каталог</a></li>
+    <li><a href="/articles" class="active">Статті</a></li>
+    <li><a href="/about">Про нас</a></li>
+    <li><a href="/contact">Контакти</a></li>
+  </ul>
+  <button class="burger" onclick="toggleMenu()">☰</button>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Редакція</span>
+    <h1>Статті та огляди</h1>
+    <p>Чесно. Детально. Без реклами.</p>
+  </div>
+</div>
+
+<section class="articles-section">
+  <div class="container">
+    <div class="articles-filter">
+      <input id="articlesSearch" type="search" placeholder="Пошук статей за словами, автором або заголовком">
+      <select id="articlesCategory">
+        <option value="all">Всі категорії</option>
+        <option value="смартфони">Смартфони</option>
+        <option value="ноутбуки">Ноутбуки</option>
+        <option value="аудіо">Аудіо</option>
+        <option value="камери">Камери</option>
+        <option value="годинники">Годинники</option>
+        <option value="ігри">Ігри</option>
+        <option value="інше">Інше</option>
+      </select>
+    </div>
+    <div id="articlesContainer">
+      <div style="text-align:center;padding:4rem;color:var(--muted)">
+        <div style="font-size:2rem;margin-bottom:1rem">⏳</div>
+        Завантаження статей...
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">TECH<span>UA</span></a>
+        <p>Незалежний сайт про техніку.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Навігація</h4>
+        <ul>
+          <li><a href="/">Головна</a></li>
+          <li><a href="/catalog">Каталог</a></li>
+          <li><a href="/articles">Статті</a></li>
+          <li><a href="/contact">Контакти</a></li>
+          <li><a href="/about">Про нас</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 TechUA. Всі права захищені.</p></div>
+  </div>
+</footer>
+
+<script src="/script.js"></script>
+<script>
+let articlesData = [];
+
+function getFilteredArticles() {
+  const query = document.getElementById('articlesSearch').value.trim().toLowerCase();
+  const category = document.getElementById('articlesCategory').value;
+  return articlesData.filter(a => {
+    const text = [a.title, a.excerpt, a.author, a.category].join(' ').toLowerCase();
+    const matchesQuery = !query || text.includes(query);
+    const matchesCategory = category === 'all' || a.category.toLowerCase() === category;
+    return matchesQuery && matchesCategory;
+  });
+}
+
+function renderArticles() {
+  const filtered = getFilteredArticles();
+  const container = document.getElementById('articlesContainer');
+
+  if (!filtered.length) {
+    container.innerHTML = '<div style="text-align:center;padding:4rem;color:var(--muted)">Нічого не знайдено</div>';
+    return;
+  }
+
+  const [featured, ...rest] = filtered;
+
+  const featuredHtml = `
+      <div class="article-featured">
+        <div class="article-featured-img" style="background:${featured.gradient || 'linear-gradient(135deg,#1a1a2e,#16213e)'}">
+          <span style="font-size:5rem">${featured.emoji || '📱'}</span>
+        </div>
+        <div class="article-featured-body">
+          <span class="card-cat">${featured.category}</span>
+          <h2>${featured.title}</h2>
+          <p>${featured.excerpt || ''}</p>
+          <div class="article-meta">
+            <span>👤 ${featured.author}</span>
+            <span>📅 ${new Date(featured.created_at).toLocaleDateString('uk-UA')}</span>
+            <span>⏱ ${featured.read_time} хв читання</span>
+          </div>
+          <a href="/article.html?id=${featured.id}" class="btn-sm">Читати повністю</a>
+        </div>
+      </div>`;
+
+  const gridHtml = rest.length ? `
+      <div class="articles-grid">
+        ${rest.map(a => `
+          <article class="article-card">
+            <div class="article-img" style="background:${a.gradient || 'linear-gradient(135deg,#1a1a2e,#16213e)'}">
+              <span>${a.emoji || '📱'}</span>
+            </div>
+            <div class="article-body">
+              <span class="card-cat">${a.category}</span>
+              <h3>${a.title}</h3>
+              <p>${a.excerpt || ''}</p>
+              <div class="article-meta">
+                <span>📅 ${new Date(a.created_at).toLocaleDateString('uk-UA')}</span>
+                <span>⏱ ${a.read_time} хв</span>
+              </div>
+              <a href="/article.html?id=${a.id}" class="btn-sm">Читати повністю</a>
+            </div>
+          </article>`).join('')}
+      </div>` : '';
+
+  container.innerHTML = featuredHtml + gridHtml;
+}
+
+async function loadArticles() {
+  try {
+    const res = await fetch('/api/articles');
+    articlesData = await res.json();
+    renderArticles();
+  } catch(e) {
+    document.getElementById('articlesContainer').innerHTML =
+      '<div style="text-align:center;padding:4rem;color:#ff4466">Помилка завантаження статей</div>';
+  }
+}
+
+function initArticleFilters() {
+  const searchInput = document.getElementById('articlesSearch');
+  const categorySelect = document.getElementById('articlesCategory');
+  searchInput.addEventListener('input', renderArticles);
+  categorySelect.addEventListener('change', renderArticles);
+}
+
+loadArticles();
+initArticleFilters();
+</script>
+</body>
+</html>

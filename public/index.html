@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechUA — Огляди техніки</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">TECH<span>UA</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Головна</a></li>
+    <li><a href="catalog.html">Каталог</a></li>
+    <li><a href="articles.html">Статті</a></li>
+    <li><a href="about.html">Про нас</a></li>
+    <li><a href="contact.html">Контакти</a></li>
+  </ul>
+  <button class="burger" onclick="toggleMenu()">☰</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">✦ Незалежні огляди</div>
+    <h1 class="hero-title">Техніка без<br><span class="accent">зайвих слів</span></h1>
+    <p class="hero-sub">Чесні огляди гаджетів. Купуй розумно — витрачай лише на те, що справді варте уваги.</p>
+    <div class="hero-btns">
+      <a href="catalog.html" class="btn-primary">Переглянути каталог</a>
+      <a href="articles.html" class="btn-outline">Читати статті</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="phone-mock">
+      <div class="phone-screen">
+        <div class="screen-line"></div>
+        <div class="screen-line short"></div>
+        <div class="screen-dot"></div>
+        <div class="screen-line"></div>
+        <div class="screen-line short"></div>
+      </div>
+    </div>
+    <div class="orbit orbit-1"></div>
+    <div class="orbit orbit-2"></div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container">
+    <div class="stat-item">
+      <span class="stat-num">200+</span>
+      <span class="stat-label">Оглядів</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">50к+</span>
+      <span class="stat-label">Читачів</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">5 років</span>
+      <span class="stat-label">Досвіду</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">98%</span>
+      <span class="stat-label">Точних прогнозів</span>
+    </div>
+  </div>
+</section>
+
+<section class="featured">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Топ огляди</span>
+      <h2>Найпопулярніше</h2>
+    </div>
+    <div class="cards-grid">
+      <article class="card card-large">
+        <div class="card-img" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+          <div class="card-device phone-icon">📱</div>
+        </div>
+        <div class="card-body">
+          <span class="card-cat">Смартфони</span>
+          <h3>iPhone 16 Pro — чи варто купувати у 2025?</h3>
+          <p>Розбираємо всі нові фішки: камеру, чіп A18, нову кнопку керування. Чесно про плюси та мінуси.</p>
+          <a href="articles.html" class="card-link">Читати огляд →</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-img" style="background: linear-gradient(135deg, #0f3460, #533483);">
+          <div class="card-device">💻</div>
+        </div>
+        <div class="card-body">
+          <span class="card-cat">Ноутбуки</span>
+          <h3>MacBook Air M4 vs Dell XPS 15</h3>
+          <p>Порівняння двох флагманів для роботи та навчання.</p>
+          <a href="articles.html" class="card-link">Читати →</a>
+        </div>
+      </article>
+      <article class="card card-large card-large-right">
+        <div class="card-img" style="background: linear-gradient(135deg, #1b4332, #2d6a4f);">
+          <div class="card-device">🎧</div>
+        </div>
+        <div class="card-body">
+          <span class="card-cat">Аудіо</span>
+          <h3>Топ-5 навушників до 5000 грн</h3>
+          <p>Найкращі варіанти за розумні гроші — від Sony до Xiaomi.</p>
+          <a href="articles.html" class="card-link">Читати →</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-img" style="background: linear-gradient(135deg, #370617, #6a040f);">
+          <div class="card-device">⌚</div>
+        </div>
+        <div class="card-body">
+          <span class="card-cat">Смарт-годинники</span>
+          <h3>Samsung Galaxy Watch 7 — огляд</h3>
+          <p>Найрозумніший годинник на Android або маркетинг?</p>
+          <a href="articles.html" class="card-link">Читати →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+<section class="newsletter">
+  <div class="container">
+    <div class="nl-box">
+      <div class="nl-text">
+        <h2>Підпишись на наш Telegram-бот</h2>
+        <p>Дізнавайся про нові статті першим — одразу у месенджері, без зайвого спаму.</p>
+      </div>
+      <div class="nl-form">
+        <a href="https://t.me/trackyourposts_bot" class="btn-primary">Підписатися в Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">TECH<span>UA</span></a>
+        <p>Незалежний сайт про техніку. Тестуємо гаджети — радимо лише найкраще.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Навігація</h4>
+        <ul>
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="articles.html">Статті</a></li>
+          <li><a href="contact.html">Контакти</a></li>
+          <li><a href="about.html">Про нас</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 TechUA. Всі права захищені.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

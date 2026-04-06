@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Стаття — TechUA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">TECH<span>UA</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Головна</a></li>
+    <li><a href="/catalog">Каталог</a></li>
+    <li><a href="/articles" class="active">Статті</a></li>
+    <li><a href="/about">Про нас</a></li>
+    <li><a href="/contact">Контакти</a></li>
+  </ul>
+  <button class="burger" onclick="toggleMenu()">☰</button>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Стаття</span>
+    <h1 id="articleTitle">Завантаження статті...</h1>
+    <p id="articleIntro">Будь ласка, зачекайте або перевірте посилання.</p>
+  </div>
+</div>
+
+<section class="article-detail-section">
+  <div class="container">
+    <div id="articleContent" class="article-detail-content">
+      <div class="article-loading">⏳ Завантаження...</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">TECH<span>UA</span></a>
+        <p>Незалежний сайт про техніку.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Навігація</h4>
+        <ul>
+          <li><a href="/">Головна</a></li>
+          <li><a href="/catalog">Каталог</a></li>
+          <li><a href="/articles">Статті</a></li>
+          <li><a href="/contact">Контакти</a></li>
+          <li><a href="/about">Про нас</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 TechUA. Всі права захищені.</p></div>
+  </div>
+</footer>
+
+<script src="/script.js"></script>
+<script>
+function getQueryParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+function getQueryParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+async function loadArticle() {
+  const id = getQueryParam('id');
+  const titleEl = document.getElementById('articleTitle');
+  const introEl = document.getElementById('articleIntro');
+  const contentEl = document.getElementById('articleContent');
+
+  if (!id) {
+    titleEl.textContent = 'Стаття не знайдена';
+    introEl.textContent = 'Потрібен параметр id у URL, наприклад /article.html?id=1';
+    contentEl.innerHTML = '<div class="article-loading">⚠️ Невірне посилання.</div>';
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/articles/${encodeURIComponent(id)}`);
+    if (!res.ok) {
+      throw new Error('Статтю не знайдено');
+    }
+
+    const article = await res.json();
+    titleEl.textContent = article.title;
+    introEl.textContent = article.excerpt || article.author;
+
+    contentEl.innerHTML = `
+      <div class="article-detail-top" style="background:${article.gradient || 'linear-gradient(135deg,#1a1a2e,#16213e)'}">
+        <span class="article-emj">${article.emoji || '📱'}</span>
+        <div class="article-detail-meta">
+          <span>${escapeHtml(article.category)}</span>
+          <span>👤 ${escapeHtml(article.author)}</span>
+          <span>📅 ${new Date(article.created_at).toLocaleDateString('uk-UA')}</span>
+          <span>⏱ ${article.read_time} хв читання</span>
+        </div>
+      </div>
+      <div class="article-detail-body">${article.content ? markdownToHtml(article.content) : '<p>Текст статті недоступний.</p>'}</div>
+    `;
+  } catch (err) {
+    titleEl.textContent = 'Помилка завантаження';
+    introEl.textContent = 'Спробуйте ще раз пізніше.';
+    contentEl.innerHTML = `<div class="article-loading">❌ ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+loadArticle();
+</script>
+</body>
+</html>

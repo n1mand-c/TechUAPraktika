@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог техніки — TechUA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">TECH<span>UA</span></a>
+  <ul class="nav-links">
+    <li><a href="/">Головна</a></li>
+    <li><a href="/catalog" class="active">Каталог</a></li>
+    <li><a href="/articles">Статті</a></li>
+    <li><a href="/about">Про нас</a></li>
+    <li><a href="/contact">Контакти</a></li>
+  </ul>
+  <button class="burger" onclick="toggleMenu()">☰</button>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Каталог</span>
+    <h1>Вся техніка</h1>
+    <p>Оцінені та перевірені пристрої з нашими рейтингами</p>
+  </div>
+</div>
+
+<section class="catalog-section">
+  <div class="container">
+    <div class="catalog-toolbar">
+      <div class="catalog-search">
+        <input id="catalogSearch" type="search" placeholder="Пошук товарів за назвою або описом">
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-btn active" onclick="setCategory('all', this)">Всі</button>
+        <button class="filter-btn" onclick="setCategory('phone', this)">📱 Смартфони</button>
+        <button class="filter-btn" onclick="setCategory('laptop', this)">💻 Ноутбуки</button>
+        <button class="filter-btn" onclick="setCategory('audio', this)">🎧 Аудіо</button>
+        <button class="filter-btn" onclick="setCategory('watch', this)">⌚ Годинники</button>
+        <button class="filter-btn" onclick="setCategory('camera', this)">📷 Камери</button>
+        <button class="filter-btn" onclick="setCategory('gaming', this)">🎮 Ігри</button>
+      </div>
+    </div>
+    <div class="catalog-grid" id="catalogGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--muted)">
+        <div style="font-size:2rem;margin-bottom:1rem">⏳</div>
+        Завантаження каталогу...
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">TECH<span>UA</span></a>
+        <p>Незалежний сайт про техніку.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Навігація</h4>
+        <ul>
+          <li><a href="/">Головна</a></li>
+          <li><a href="/catalog">Каталог</a></li>
+          <li><a href="/articles">Статті</a></li>
+          <li><a href="/contact">Контакти</a></li>
+          <li><a href="/about">Про нас</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 TechUA. Всі права захищені.</p></div>
+  </div>
+</footer>
+
+<script src="/script.js"></script>
+<script>
+let productsData = [];
+let currentCategory = 'all';
+
+function getFilteredProducts() {
+  const query = document.getElementById('catalogSearch').value.trim().toLowerCase();
+  return productsData.filter(p => {
+    const text = [p.name, p.description, p.category].join(' ').toLowerCase();
+    const matchesQuery = !query || text.includes(query);
+    const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+    return matchesQuery && matchesCategory;
+  });
+}
+
+function renderProducts() {
+  const grid = document.getElementById('catalogGrid');
+  const products = getFilteredProducts();
+
+  if (!products.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--muted)">Нічого не знайдено</div>';
+    return;
+  }
+
+  const categoryNames = {
+    phone: 'Смартфони',
+    laptop: 'Ноутбуки',
+    audio: 'Аудіо',
+    camera: 'Камери',
+    watch: 'Годинники',
+    gaming: 'Ігри'
+  };
+
+  grid.innerHTML = products.map(p => `
+      <div class="product-card">
+        <div class="product-img" style="background:${p.gradient || 'linear-gradient(135deg,#1a1a2e,#16213e)'}">
+          <span class="product-emoji">${p.emoji || '📱'}</span>
+          <span class="rating-badge">${p.rating}</span>
+        </div>
+        <div class="product-info">
+          <span class="product-cat">${categoryNames[p.category] || p.category}</span>
+          <h3>${p.name}</h3>
+          <div class="product-description">${markdownToHtml(p.description || '')}</div>
+          <div class="product-footer">
+            <span class="product-price">${p.price || '—'}</span>
+            <a href="/articles" class="btn-sm">Огляд</a>
+          </div>
+        </div>
+      </div>`).join('');
+}
+
+function setCategory(category = 'all', btn = null) {
+  if (btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  currentCategory = category;
+  renderProducts();
+}
+
+async function loadProducts() {
+  const grid = document.getElementById('catalogGrid');
+  grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)">⏳ Завантаження...</div>';
+
+  try {
+    const res = await fetch('/api/products');
+    productsData = await res.json();
+    renderProducts();
+  } catch (e) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem;color:#ff4466">Помилка завантаження</div>';
+  }
+}
+
+function initCatalogSearch() {
+  const input = document.getElementById('catalogSearch');
+  input.addEventListener('input', renderProducts);
+}
+
+loadProducts();
+initCatalogSearch();
+</script>
+</body>
+</html>

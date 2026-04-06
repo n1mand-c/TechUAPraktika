@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Контакти — TechUA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">TECH<span>UA</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Головна</a></li>
+    <li><a href="catalog.html">Каталог</a></li>
+    <li><a href="articles.html">Статті</a></li>
+    <li><a href="about.html">Про нас</a></li>
+    <li><a href="contact.html" class="active">Контакти</a></li>
+  </ul>
+  <button class="burger" onclick="toggleMenu()">☰</button>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Зв'язок</span>
+    <h1>Контакти</h1>
+    <p>Маєш питання або хочеш запропонувати тему огляду?</p>
+  </div>
+</div>
+
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div class="contact-info">
+        <h2>Напиши нам</h2>
+        <p>Ми відповідаємо на всі повідомлення протягом 24 годин у робочі дні.</p>
+
+        <div class="contact-items">
+          <div class="contact-item">
+            <span class="contact-icon">📧</span>
+            <div>
+              <strong>Email</strong>
+              <p>hello@techua.com.ua</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">💬</span>
+            <div>
+              <strong>Telegram</strong>
+              <p>@techua_official</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📍</span>
+            <div>
+              <strong>Місто</strong>
+              <p>Київ, Україна</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">⏰</span>
+            <div>
+              <strong>Робочі години</strong>
+              <p>Пн–Пт: 9:00 — 18:00</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-socials">
+          <a href="#" class="social-btn">YouTube</a>
+          <a href="#" class="social-btn">Instagram</a>
+          <a href="#" class="social-btn">Telegram</a>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label>Ваше ім'я</label>
+            <input type="text" name="name" id="name" placeholder="Наприклад: Олег" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" id="email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Тема</label>
+            <select name="subject" id="subject">
+              <option value="Запитання про техніку">Запитання про техніку</option>
+              <option value="Пропозиція теми огляду">Пропозиція теми огляду</option>
+              <option value="Співпраця">Співпраця</option>
+              <option value="Помилка на сайті">Помилка на сайті</option>
+              <option value="Інше">Інше</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Повідомлення</label>
+            <textarea name="message" id="message" placeholder="Напиши своє питання або пропозицію..." rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%">Надіслати повідомлення</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <span>✅</span>
+          <h3>Повідомлення надіслано!</h3>
+          <p>Ми відповімо протягом 24 годин.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">TECH<span>UA</span></a>
+        <p>Незалежний сайт про техніку.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Навігація</h4>
+        <ul>
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="articles.html">Статті</a></li>
+          <li><a href="contact.html">Контакти</a></li>
+          <li><a href="about.html">Про нас</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 TechUA. Всі права захищені.</p></div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
